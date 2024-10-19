@@ -1,0 +1,5 @@
+const API_ENDPOINT = process.env.NEXT_PUBLIC_API_URL;
+const SESSION_COOKIE_NAME = "connect.sid";
+const USER_INFO_COOKIE_NAME = "user.info";
+
+export { API_ENDPOINT, SESSION_COOKIE_NAME, USER_INFO_COOKIE_NAME };
