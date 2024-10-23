@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./(root)//globals.css";
 import { Navbar } from "../components";
 import { Providers } from "./(root)/providers";
-import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 const pretendard = localFont({
