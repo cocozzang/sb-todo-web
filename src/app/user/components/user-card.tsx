@@ -10,20 +10,38 @@ import {
   AvatarFallback,
   AvatarImage,
   Input,
-  CardFooter,
   Button,
 } from "../../../components/ui";
 import { UserIcon } from "lucide-react";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Label } from "../../../components/ui/label";
-import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { editUserAction } from "../actions";
+import {
+  updateUserSchema,
+  UpdateUserScheme,
+} from "../validation/update-user-schema";
 
 const UserCard = ({ user }: { user: User }) => {
-  // const [formData, setFormData] = useState({name:user.name,password })
-
-  const handleEditUser = async () => {};
-
   const handleDeleteUser = async () => {};
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UpdateUserScheme>({
+    resolver: zodResolver(updateUserSchema),
+  });
+
+  const handleEditUser: SubmitHandler<UpdateUserScheme> = async (data) => {
+    await editUserAction({
+      userId: user.id,
+      name: data.name,
+      password: data.password,
+    });
+  };
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -37,11 +55,12 @@ const UserCard = ({ user }: { user: User }) => {
         <div className="flex items-center space-x-4 mb-6">
           <Avatar className="w-20 h-20">
             <AvatarImage
+              sizes="32"
               src={user?.profileImage ?? undefined}
-              alt={user?.name}
+              alt="user's profile image"
             />
             <AvatarFallback>
-              <UserIcon className="text-zinc-400" />
+              <UserIcon className="text-zinc-400" size={32} />
             </AvatarFallback>
           </Avatar>
           <div>
@@ -52,32 +71,53 @@ const UserCard = ({ user }: { user: User }) => {
 
         <Separator className="my-6" />
 
-        <form className="space-y-6">
+        <div className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="username">유저명</Label>
-            <Input id="username" defaultValue={user?.name} />
+            <Input
+              id="username"
+              defaultValue={user?.name}
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="password">새 비밀번호</Label>
-            <Input id="password" type="password" />
+            <Input id="password" type="password" {...register("password")} />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">비밀번호 확인</Label>
-            <Input id="confirmPassword" type="password" />
+            <Input
+              id="confirmPassword"
+              type="password"
+              {...register("confirmPassword")}
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm">
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
 
           <div>
             <Label htmlFor="profileImage">프로필 이미지</Label>
             <Input id="profileImage" type="file" className="mt-1" disabled />
           </div>
-        </form>
+          <div className="flex mt-2 justify-between">
+            <Button variant="destructive">회원 탈퇴</Button>
+            <Button onClick={handleSubmit(handleEditUser)}>
+              변경사항 저장
+            </Button>
+          </div>
+        </div>
       </CardContent>
-      <CardFooter className="flex mt-2 justify-between">
-        <Button variant="destructive">회원 탈퇴</Button>
-        <Button>변경사항 저장</Button>
-      </CardFooter>
     </Card>
   );
 };
