@@ -1,11 +1,13 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { API_ENDPOINT, SESSION_COOKIE_NAME } from "../../../const";
 
 interface UserUpdatePayload {
   userId: number;
   name: string;
-  password: string;
-  profileImage: string | null;
+  password?: string;
+  profileImage?: string | null;
 }
 
 interface UserUpdateRequestBody extends Omit<UserUpdatePayload, "userId"> {
@@ -35,7 +37,7 @@ const editUserAction = async (userUpdatePayload: UserUpdatePayload) => {
 
     if (response.status !== 200) {
       return {
-        status: responseBody.statusCode,
+        status: response.status,
         success: false,
         error: responseBody.error,
         message: responseBody.message,
