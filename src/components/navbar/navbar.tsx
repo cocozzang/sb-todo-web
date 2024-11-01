@@ -1,4 +1,4 @@
-import { HomeIcon, Settings, UserIcon } from "lucide-react";
+import { BookText, HomeIcon, Settings, UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage, Button } from "../ui";
 import Link from "next/link";
 import { NavbarInput } from "./navbar-input";
@@ -36,7 +36,9 @@ export const Navbar = () => {
         </Link>
         <NavbarInput />
 
-        {/* TODO: login check하고 둘중 하나만 보이기 합시다 */}
+        {/* 아래 부분이 로그아웃 이후에 sessionCookie가 false인 경우의 ui가 렌더링 되지 않고있음. */}
+        {/*  userInfo 정보를 local strage + global state로 관리하기 */}
+        {/* TODO: 아래 부분은 RCC로 바꾸기 */}
         {sessionCookie ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -54,6 +56,18 @@ export const Navbar = () => {
                 <DropdownMenuItem>
                   <Settings className="mr-2 h-4 w-4" />
                   <span>계정 설정</span>
+                </DropdownMenuItem>
+              </Link>
+              <Link href={"/querypage-with-dehydration"}>
+                <DropdownMenuItem>
+                  <BookText className="mr-2 h-4 w-4" />
+                  <span>dehydration</span>
+                </DropdownMenuItem>
+              </Link>
+              <Link href={"/querypage"}>
+                <DropdownMenuItem>
+                  <BookText className="mr-2 h-4 w-4" />
+                  <span>react query</span>
                 </DropdownMenuItem>
               </Link>
               <ThemeSwitchDropdownMenuItem />
