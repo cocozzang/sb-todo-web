@@ -9,7 +9,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage, Button } from "../ui";
 import Link from "next/link";
-import { BookText, HomeIcon, Settings, UserIcon } from "lucide-react";
+import { BookText, Settings, UserIcon } from "lucide-react";
 import { LogoutDropdownMenuItem } from "./logout-dropdown-menu-item";
 import { ThemeSwitchDropdownMenuItem } from "../theme-switch-dropdown-menu-item";
 

@@ -1,17 +1,8 @@
 import { NavbarInput } from "./navbar-input";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE_NAME } from "../../const";
-import { ThemeSwitchDropdownMenuItem } from "../theme-switch-dropdown-menu-item";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage, Button } from "../ui";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { LogoutDropdownMenuItem } from "./logout-dropdown-menu-item";
-import { BookText, HomeIcon, Settings, UserIcon } from "lucide-react";
+import { HomeIcon } from "lucide-react";
 import { AccountMenu } from "./account-menu";
 
 type UserInfo = {

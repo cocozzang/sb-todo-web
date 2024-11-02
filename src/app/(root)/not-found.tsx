@@ -1,4 +1,3 @@
-import { Palanquin_Dark } from "next/font/google";
 import Link from "next/link";
 
 export default function NotFound() {

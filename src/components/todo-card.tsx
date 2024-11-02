@@ -3,7 +3,6 @@
 import {
   CalendarIcon,
   CheckIcon,
-  Divide,
   EditIcon,
   Trash2Icon,
   XIcon,

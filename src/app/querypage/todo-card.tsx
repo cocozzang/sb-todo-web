@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useRouter } from "next/navigation";
 import {
   CalendarIcon,
   CheckIcon,
@@ -21,12 +20,11 @@ import {
 import { cn } from "../../lib/utils";
 import { Checkbox } from "../../components/ui/checkbox";
 import { ko } from "date-fns/locale";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useUpdateTodoMutation } from "./hooks/use-update-todo-mutation";
 import { useDeleteTodoMutation } from "./hooks/use-delete-todo-mutation";
 
 const TodoCard = (todo: any) => {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const [isDone, setIsDone] = useState(todo.status === 1 ? false : true);
