@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="kr" suppressHydrationWarning>
+    <html lang="kr">
       <body className={`${pretendard.className} my-4`}>
         <Providers>
           <Navbar />
