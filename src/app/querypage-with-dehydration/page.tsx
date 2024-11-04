@@ -6,20 +6,20 @@ import { TodoAddSectionDehydration } from "./todo-add-section-dehydration";
 import { GetTodoListAction } from "../../actions/todo";
 
 const QuerypageWithDehydrationPage = () => {
-  const queryClient = getQueryClient();
-
-  void queryClient.prefetchQuery({
-    queryKey: ["todo-dehydration"],
-    queryFn: GetTodoListAction,
-  });
+  // const queryClient = getQueryClient();
+  //
+  // void queryClient.prefetchQuery({
+  //   queryKey: ["todo-dehydration"],
+  //   queryFn: GetTodoListAction,
+  // });
 
   return (
     <div>
       <div>query page</div>
       <TodoAddSectionDehydration />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <TodoList />
-      </HydrationBoundary>
+      {/* <HydrationBoundary state={dehydrate(queryClient)}> */}
+      {/*   <TodoList /> */}
+      {/* </HydrationBoundary> */}
     </div>
   );
 };
