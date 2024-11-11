@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import "./(root)//globals.css";
 import { Navbar } from "../components";
 import { Providers } from "./(root)/providers";
 import localFont from "next/font/local";
+import { ToastContainer } from "react-toastify";
+import "./(root)//globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const pretendard = localFont({
-  src: "../../static/fonts/PretendardVariable.woff2",
+  src: "../../public/fonts/PretendardVariable.woff2",
   display: "swap",
   weight: "45 920",
   variable: "--font-pretendard",
@@ -27,6 +29,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <ToastContainer />
         </Providers>
       </body>
     </html>

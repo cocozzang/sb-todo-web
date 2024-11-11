@@ -17,15 +17,22 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Label } from "../../../components/ui/label";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { editUserAction } from "../actions";
 import {
   updateUserSchema,
   UpdateUserScheme,
 } from "../validation/update-user-schema";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCookies } from "react-cookie";
+import { useGetMyInfoQuery } from "../hooks/use-get-my-info-query";
+import { useUpdateMyInfoMutation } from "../hooks/use-update-my-info-mutation";
+import { ClipLoader } from "react-spinners";
 
-const UserCard = ({ user }: { user: User }) => {
-  const handleDeleteUser = async () => {};
+const UserCard = () => {
+  const [cookie] = useCookies(["user.info"]);
+
+  const { data: user, isLoading } = useGetMyInfoQuery(cookie["user.info"]?.id);
+
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -35,13 +42,26 @@ const UserCard = ({ user }: { user: User }) => {
     resolver: zodResolver(updateUserSchema),
   });
 
+  const { mutate: updateMyInfoMutate } = useUpdateMyInfoMutation(queryClient);
+
   const handleEditUser: SubmitHandler<UpdateUserScheme> = async (data) => {
-    await editUserAction({
+    updateMyInfoMutate({
       userId: user.id,
       name: data.name,
       password: data.password,
     });
   };
+
+  if (isLoading)
+    return (
+      <div className="w-full max-w-3xl mx-auto grid justify-center my-8">
+        <ClipLoader
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    );
 
   return (
     <Card className="w-full max-w-3xl mx-auto">

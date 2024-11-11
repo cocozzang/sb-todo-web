@@ -1,19 +1,15 @@
-import { getUser } from "./actions/get-user";
-import { redirect } from "next/navigation";
+"use client";
+
 import { UserCard } from "./components/user-card";
 
-export default async function UserPage() {
-  const res = await getUser();
-
-  if (res.status === 401 || !res.data) redirect("/login");
-
-  const user = res.data;
-
+const UserPage = () => {
   return (
     <main className="container mx-auto py-10">
       <section>
-        <UserCard user={user} />
+        <UserCard />
       </section>
     </main>
   );
-}
+};
+
+export default UserPage;
