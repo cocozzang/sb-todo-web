@@ -4,15 +4,18 @@ import { useRouter } from "next/navigation";
 import { logoutAction } from "../../app/(auth)/login/action";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { LogOut } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const LogoutDropdownMenuItem = () => {
   const route = useRouter();
+  const queryClient = useQueryClient();
 
   const handleLogOut = async () => {
     try {
       const logOut = await logoutAction();
 
       if (logOut.success) {
+        queryClient.clear();
         route.push("/login");
       }
     } catch (error) {
