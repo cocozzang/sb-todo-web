@@ -23,16 +23,23 @@ import {
 } from "../validation/update-user-schema";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
-import { useGetMyInfoQuery } from "../hooks/use-get-my-info-query";
-import { useUpdateMyInfoMutation } from "../hooks/use-update-my-info-mutation";
 import { ClipLoader } from "react-spinners";
+import {
+  useDeleteAccountMutation,
+  useGetMyInfoQuery,
+  useUpdateMyInfoMutation,
+} from "../hooks";
+import { useRouter } from "next/navigation";
 
 const UserCard = () => {
+  const router = useRouter();
   const [cookie] = useCookies(["user.info"]);
 
-  const { data: user, isLoading } = useGetMyInfoQuery(cookie["user.info"]?.id);
-
   const queryClient = useQueryClient();
+
+  const { data: user, isLoading } = useGetMyInfoQuery(cookie["user.info"]?.id);
+  const { mutate: updateMyInfoMutate } = useUpdateMyInfoMutation(queryClient);
+  const { mutate: deleteAccountMutate } = useDeleteAccountMutation(queryClient);
 
   const {
     register,
@@ -42,14 +49,17 @@ const UserCard = () => {
     resolver: zodResolver(updateUserSchema),
   });
 
-  const { mutate: updateMyInfoMutate } = useUpdateMyInfoMutation(queryClient);
-
   const handleEditUser: SubmitHandler<UpdateUserScheme> = async (data) => {
     updateMyInfoMutate({
       userId: user.id,
       name: data.name,
       password: data.password,
     });
+  };
+
+  const handleDeleteAccount = () => {
+    deleteAccountMutate(user.id);
+    router.push("/login");
   };
 
   if (isLoading)
@@ -131,7 +141,9 @@ const UserCard = () => {
             <Input id="profileImage" type="file" className="mt-1" disabled />
           </div>
           <div className="flex mt-2 justify-between">
-            <Button variant="destructive">회원 탈퇴</Button>
+            <Button variant="destructive" onClick={handleDeleteAccount}>
+              회원 탈퇴
+            </Button>
             <Button onClick={handleSubmit(handleEditUser)}>
               변경사항 저장
             </Button>

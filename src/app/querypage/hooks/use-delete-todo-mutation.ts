@@ -21,7 +21,8 @@ const useDeleteTodoMutation = (queryClient: QueryClient) =>
   useMutation({
     mutationFn: async (todoId: number) => await todoDeleteMutation(todoId),
     onMutate: async (todoId: number) => {
-      queryClient.cancelQueries({ queryKey: ["todo-client"] });
+      await queryClient.cancelQueries({ queryKey: ["todo-client"] });
+
       const previousTodoList = queryClient.getQueryData(["todo-client"]);
 
       console.log(previousTodoList);
@@ -29,10 +30,6 @@ const useDeleteTodoMutation = (queryClient: QueryClient) =>
       queryClient.setQueryData(["todo-client"], (oldTodos: any) =>
         oldTodos?.filter((todo: any) => todo.id !== todoId),
       );
-
-      const afterUpdateTodoList = queryClient.getQueryData(["todo-client"]);
-
-      console.log(afterUpdateTodoList);
 
       return { previousTodoList };
     },
